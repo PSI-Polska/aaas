@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>aaas</artifactId>
+        <groupId>pl.psi.aaas</groupId>
+        <version>0.5-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>engine-r</artifactId>
+    <name>AaaS :: Engine :: R</name>
+
+
+    <properties>
+        <version.rserve>1.8.1</version.rserve>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>pl.psi.aaas</groupId>
+            <artifactId>api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib-jdk8</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>io.kotlintest</groupId>
+            <artifactId>kotlintest</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.nhaarman</groupId>
+            <artifactId>mockito-kotlin</artifactId>
+        </dependency>
+
+        <!--required for REngine implementation-->
+        <dependency>
+            <groupId>org.rosuda.REngine</groupId>
+            <artifactId>Rserve</artifactId>
+            <version>${version.rserve}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <sourceDirectory>src/main/kotlin</sourceDirectory>
+
+        <plugins>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <inherited>true</inherited>
+            </plugin>
+
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.23.0</version>
+                <configuration>
+                    <machine>
+                        <name>default</name>
+                    </machine>
+                    <images>
+                        <image>
+                            <name>repository.gitlab.com/edmpsi/aaas/engine-r</name>
+                            <dockerFile>Dockerfile</dockerFile>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

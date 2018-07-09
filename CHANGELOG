@@ -1,0 +1,14 @@
+## 0.1 Initial, very crude version
+- TimeSeries based scenario based on TimeSeriesRepository
+- R through Rserve
+
+## 0.2 API improvements
+- Sending and receiving user defined definitions even without TSRepository.
+- TSRepository and TSBasedCalculationExecution are now deprecated and will be removed in 0.3 or 0.4
+
+### 0.2-jdk6 was released. This 0.2 is the only version with planned backward support for jre6
+
+## 0.3
+- Added python support through protobuf (rpc)
+- Refactored CalculationDefinition to use only in/out Parameters
+- Removed TSRepository

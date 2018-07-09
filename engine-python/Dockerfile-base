@@ -1,0 +1,8 @@
+FROM python:3.6.5-slim
+
+ENV TZ=UTC
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+RUN python -m pip install --upgrade pip && \
+    python -m pip install grpcio --ignore-installed && \
+    python -m pip install grpcio-tools  --ignore-installed

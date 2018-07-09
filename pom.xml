@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>pl.psi.aaas</groupId>
+    <artifactId>aaas</artifactId>
+    <version>0.5-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>AaaS</name>
+
+    <modules>
+        <module>api</module>
+        <module>sample</module>
+        <module>engine-r</module>
+        <module>engine-python</module>
+        <module>connection-checker</module>
+        <module>web-sample</module>
+    </modules>
+
+    <properties>
+        <!-- project properties -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
+        <version.kotlin>1.2.50</version.kotlin>
+        <version.kotlintest>2.0.7</version.kotlintest>
+        <version.dokka>0.9.15</version.dokka>
+
+        <!-- dependencies properties -->
+        <version.slf4j>1.7.25</version.slf4j>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- project deps -->
+
+            <!-- project compilation/infrastructure dependencies -->
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-stdlib-jdk8</artifactId>
+                <version>${version.kotlin}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-reflect</artifactId>
+                <version>${version.kotlin}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${version.slf4j}</version>
+            </dependency>
+
+            <!-- test dependencies -->
+            <dependency>
+                <groupId>io.kotlintest</groupId>
+                <artifactId>kotlintest</artifactId>
+                <version>${version.kotlintest}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.nhaarman</groupId>
+                <artifactId>mockito-kotlin</artifactId>
+                <version>1.5.0</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.jetbrains.kotlin</groupId>
+                    <artifactId>kotlin-maven-plugin</artifactId>
+                    <version>${version.kotlin}</version>
+                    <executions>
+                        <execution>
+                            <id>compile</id>
+                            <phase>compile</phase>
+                            <goals>
+                                <goal>compile</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>test-compile</id>
+                            <phase>test-compile</phase>
+                            <goals>
+                                <goal>test-compile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jetbrains.dokka</groupId>
+                <artifactId>dokka-maven-plugin</artifactId>
+                <version>${version.dokka}</version>
+                <executions>
+                    <execution>
+                        <phase>pre-site</phase>
+                        <goals>
+                            <goal>dokka</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>javadoc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <developers>
+        <developer>
+            <name>Krzysztof Skitek</name>
+            <email>krzysztof.skitek@gmail.com</email>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:git@gitlab.com:edmpsi/aaas.git</connection>
+        <developerConnection>scm:git:git@gitlab.com:edmpsi/aaas.git</developerConnection>
+        <url>git@gitlab.com:edmpsi/aaas.git</url>
+        <tag>HEAD</tag>
+    </scm>
+
+
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>terefere-releases</id>
+            <url>http://46.101.212.137:8081/repository/terefere-releases/</url>
+        </repository>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>terefere-snapshots</id>
+            <url>http://46.101.212.137:8081/repository/terefere-snapshots/</url>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>terefere</id>
+            <url>http://46.101.212.137:8081/repository/terefere-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>terefere</id>
+            <url>http://46.101.212.137:8081/repository/terefere-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>jcenter</id>
+            <name>JCenter</name>
+            <url>https://jcenter.bintray.com/</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+</project>

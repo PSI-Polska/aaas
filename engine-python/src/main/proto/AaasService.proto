@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+//package pl.psi.aaas.communication;
+option java_package = "pl.psi.aaas.communication";
+option java_multiple_files = true;
+
+service AAAS {
+    rpc call (CallParameters) returns (ReturnParameters) {
+    }
+}
+
+message CallParameters {
+    string script = 1;
+    Parameters params = 2;
+}
+
+message ReturnParameters {
+    string errorMessage = 1;
+    Parameters params = 2;
+}
+
+message Parameters {
+    map<string, Parameter> value = 1;
+
+}
+
+
+message Parameter {
+    oneof value {
+        Vector vector = 1;
+        // Primitive primitive = 2;
+    }
+}
+
+message Vector {
+    oneof value {
+        DoubleVector doubleValue = 1;
+        StringVector stringValue = 2;
+        BoolVector boolValue = 3;
+        LongVector longValue = 4;
+        TimestampVector timestampValue = 5;
+        VectorVector vectorValue = 6;
+    }
+}
+
+message DoubleVector {
+    repeated DoubleValue vector = 1;
+}
+
+message StringVector {
+    repeated StringValue vector = 1;
+}
+
+message BoolVector {
+    repeated BoolValue vector = 1;
+}
+
+message LongVector {
+    repeated LongValue vector = 1;
+}
+
+message TimestampVector {
+    repeated TimestampValue vector = 1;
+}
+
+message VectorVector {
+    repeated Vector vector = 1;
+}
+
+// wrap primitives in order to be able to support null values
+
+message DoubleValue {
+    double value = 1;
+    EmptyValue empty = 2;
+}
+
+message StringValue {
+    string value = 1;
+    EmptyValue empty = 2;
+}
+
+message BoolValue {
+    bool value = 1;
+    EmptyValue empty = 2;
+}
+
+message LongValue {
+    sint64 value = 1;
+    EmptyValue empty = 2;
+}
+
+message TimestampValue {
+    uint64 value = 1;
+    EmptyValue empty = 2;
+}
+
+message EmptyValue {
+}
+

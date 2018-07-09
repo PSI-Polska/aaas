@@ -1,0 +1,40 @@
+version: '3.2'
+services:
+  engine:
+    image: registry.gitlab.com/edmpsi/aaas/engine/r:0.6
+    # volumes:
+    #  - /c/Users/rbachorz/R/aaas/projects/engine-r/src/R/standard/userScripts:/var/userScripts/
+    #  - /c/Users/rbachorz/R/models:/var/trainedModels/
+    ports:
+     - 6311:6311
+    depends_on:
+      - scriptsRepo
+    networks:
+     - net1
+
+  scriptsRepo:
+    image: registry.gitlab.com/edmpsi/aaas/repository/r_sample
+    ports:
+     - 22:22
+    networks:
+     - net1
+
+  rstudio:
+    # image: registry.gitlab.com/edmpsi/aaas/engine/rstudio
+    image: rocker/rstudio
+    ports:
+     - 8787:8787
+    networks:
+     - net1
+
+  web_sample:
+    image: registry.gitlab.com/edmpsi/aaas/web_sample
+    ports:
+     - 8080:8080
+    depends_on:
+      - engine
+    networks:
+     - net1
+  
+networks:
+  net1:
