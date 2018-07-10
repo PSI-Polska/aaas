@@ -149,40 +149,11 @@
     </developers>
 
     <scm>
-        <connection>scm:git:git@gitlab.com:edmpsi/aaas.git</connection>
-        <developerConnection>scm:git:git@gitlab.com:edmpsi/aaas.git</developerConnection>
-        <url>git@gitlab.com:edmpsi/aaas.git</url>
+        <connection>scm:git:https://github.com/PSI-Polska/aaas.git</connection>
+        <developerConnection>scm:git:https://github.com/PSI-Polska/aaas.git</developerConnection>
+        <url>https://github.com/PSI-Polska/aaas.git</url>
         <tag>HEAD</tag>
     </scm>
-
-
-    <repositories>
-        <repository>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <id>terefere-releases</id>
-            <url>http://46.101.212.137:8081/repository/terefere-releases/</url>
-        </repository>
-        <repository>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <id>terefere-snapshots</id>
-            <url>http://46.101.212.137:8081/repository/terefere-snapshots/</url>
-        </repository>
-    </repositories>
-
-    <distributionManagement>
-        <repository>
-            <id>terefere</id>
-            <url>http://46.101.212.137:8081/repository/terefere-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>terefere</id>
-            <url>http://46.101.212.137:8081/repository/terefere-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <pluginRepositories>
         <pluginRepository>
