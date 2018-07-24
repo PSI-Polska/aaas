@@ -69,7 +69,10 @@ def pb_error_result(msg):
 
 
 def __milis_to_dt(ms):
-    return datetime.fromtimestamp(ms / 1000.0, tz=pytz.utc)
+    if ms is None :
+        return None
+    else :
+        return datetime.fromtimestamp(ms / 1000.0, tz=pytz.utc)
 
 
 def __dt_to_milis(dt):
