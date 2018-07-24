@@ -6,11 +6,6 @@ RUN mkdir /engine
 WORKDIR /engine
 ENV PYTHONPATH /engine
 
-RUN python -m pip install --upgrade matplotlib && \
-    python -m pip install --upgrade numpy && \
-    python -m pip install --upgrade pandas && \
-    python -m pip install --upgrade pytz
-
 COPY src/main/proto/AaasService.proto /engine/
 COPY src/main/python/*.py /engine/
 
