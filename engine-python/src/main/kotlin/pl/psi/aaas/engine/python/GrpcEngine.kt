@@ -168,7 +168,7 @@ class GrpcEngine(val connectionProvider: ConnectionProvider<AAASGrpc.AAASBlockin
             if (it.hasEmpty())
                 null
             else
-                it.value
+                ZonedDateTime.ofInstant(Instant.ofEpochMilli(it.value), ZoneOffset.UTC)
         }.toTypedArray()
         return Parameter.ofArray(array) as Vector<Any>
     }
@@ -186,11 +186,11 @@ class GrpcEngine(val connectionProvider: ConnectionProvider<AAASGrpc.AAASBlockin
 
     @Suppress("UNCHECKED_CAST")
     private fun fromCommBoolVector(vector: VectorComm): Vector<Any> {
-        val array = vector.timestampValue.vectorList.map {
+        val array = vector.boolValue.vectorList.map {
             if (it.hasEmpty())
                 null
             else
-                ZonedDateTime.ofInstant(Instant.ofEpochMilli(it.value), ZoneOffset.UTC)
+                it.value
         }.toTypedArray()
         return Parameter.ofArray(array) as Vector<Any>
     }
