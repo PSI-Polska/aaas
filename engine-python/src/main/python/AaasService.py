@@ -113,13 +113,19 @@ def __map_list_to_pb(vector, l):
         return []
     else:
         t = __get_vector_type(l)
-    [__map_value_to_pb(vector, t, x) for x in l]
+
+    if t is None:
+        vector.emptyValue.SetInParent()
+    else:
+        [__map_value_to_pb(vector, t, x) for x in l]
 
 
 def __get_vector_type(vector):
     """Returns type of elements in collection.
     Raises ValueError when collection is heterogeneous."""
     types = set([x for x in __not_none_types(vector)])
+    if len(types) == 0:
+        return None
     if len(types) != 1:
         raise ValueError("Heterogeneous collections are not supported", types)
     else:
