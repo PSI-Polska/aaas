@@ -40,6 +40,7 @@ message Vector {
         LongVector longValue = 4;
         TimestampVector timestampValue = 5;
         VectorVector vectorValue = 6;
+        EmptyVector emptyValue = 7;
     }
 }
 
@@ -65,6 +66,9 @@ message TimestampVector {
 
 message VectorVector {
     repeated Vector vector = 1;
+}
+
+message EmptyVector {
 }
 
 // wrap primitives in order to be able to support null values
