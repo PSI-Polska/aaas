@@ -167,7 +167,7 @@ class GrpcEngine(val connectionProvider: ConnectionProvider<AAASGrpc.AAASBlockin
                 else
                     throw CalculationException("Unsupported vector type: " + vector)
             else
-                throw CalculationException("kupa gówna")
+                throw CalculationException("Unsupported operation, parameter is null or it's not a Vector<*> ")
 
     private fun getEmpty(clazz: Class<out Any>): Vector<Any> {
         clazz as Class<Any>
