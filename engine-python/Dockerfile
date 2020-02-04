@@ -1,4 +1,4 @@
-FROM quay.io/kskitek/python-base:0.1
+FROM python-base:${version}
 
 EXPOSE 20304
 
