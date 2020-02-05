@@ -3,7 +3,7 @@
     <parent>
         <artifactId>aaas</artifactId>
         <groupId>pl.psi.aaas</groupId>
-        <version>0.5-SNAPSHOT</version>
+        <version>0.6-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -83,7 +83,46 @@
             </extension>
         </extensions>
 
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/proto</directory>
+                <targetPath>/src/main/proto/</targetPath>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/python</directory>
+                <targetPath>/src/main/python/</targetPath>
+                <filtering>false</filtering>
+            </resource>
+            <resource>
+                <directory>${basedir}/</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>Dockerfile</include>
+                    <include>Dockerfile-base</include>
+                </includes>
+            </resource>
+        </resources>
+
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <excludes>
+                        <exclude>Dockerfile</exclude>
+                        <exclude>Dockerfile-base</exclude>
+                        <exclude>buildImage.sh</exclude>
+                        <exclude>/src/**</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
 
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
