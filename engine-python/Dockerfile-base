@@ -6,9 +6,4 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 RUN python -m pip install --upgrade pip && \
     python -m pip install grpcio --ignore-installed && \
     python -m pip install grpcio-tools --ignore-installed && \
-    python -m pip install scipy --ignore-installed && \
-    python -m pip install numpy --ignore-installed && \
-    python -m pip install matplotlib --ignore-installed && \
-    python -m pip install pandas==0.23 --ignore-installed && \
-    python -m pip install pytz --ignore-installed && \
-    python -m pip install sklearn --ignore-installed
+    python -m pip install pytz==2019.3 --ignore-installed
