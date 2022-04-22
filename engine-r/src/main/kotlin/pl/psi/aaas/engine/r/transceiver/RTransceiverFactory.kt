@@ -22,6 +22,7 @@ internal object RValuesTransceiverFactory {
 
     private fun primitiveTransceiver(clazz: Class<Any>, conn: RConnection): RValuesTransceiver<Parameter<*>, *, CalculationDefinition> =
             when (clazz) {
+                java.lang.String::class.java  -> RPrimitiveTransceiver.string(conn)
                 String::class.java            -> RPrimitiveTransceiver.string(conn)
                 java.lang.Long::class.java    -> RPrimitiveTransceiver.long(conn)
                 Long::class.java              -> RPrimitiveTransceiver.long(conn)
@@ -36,11 +37,14 @@ internal object RValuesTransceiverFactory {
 
 private fun vectorTransceiver(param: Vector<*>, conn: RConnection): RValuesTransceiver<Parameter<*>, *, CalculationDefinition> = //EngineValuesSender TODO
         when (param.elemClazz) {
+            java.lang.String::class.java  -> RArrayTransceiver.string(conn) as RValuesTransceiver<Parameter<*>, *, CalculationDefinition>
             String::class.java            -> RArrayTransceiver.string(conn) as RValuesTransceiver<Parameter<*>, *, CalculationDefinition>
+            java.lang.Long::class.java    -> RArrayTransceiver.long(conn) as RValuesTransceiver<Parameter<*>, *, CalculationDefinition>
             Long::class.java              -> RArrayTransceiver.long(conn) as RValuesTransceiver<Parameter<*>, *, CalculationDefinition>
+            java.lang.Double::class.java  -> RArrayTransceiver.double(conn) as RValuesTransceiver<Parameter<*>, *, CalculationDefinition>
             Double::class.java            -> RArrayTransceiver.double(conn) as RValuesTransceiver<Parameter<*>, *, CalculationDefinition>
-            Boolean::class.java           -> RArrayTransceiver.boolean(conn) as RValuesTransceiver<Parameter<*>, *, CalculationDefinition>
             java.lang.Boolean::class.java -> RArrayTransceiver.boolean(conn) as RValuesTransceiver<Parameter<*>, *, CalculationDefinition>
+            Boolean::class.java           -> RArrayTransceiver.boolean(conn) as RValuesTransceiver<Parameter<*>, *, CalculationDefinition>
             ZonedDateTime::class.java     -> ArrayDateTimeTransceiver(conn) as RValuesTransceiver<Parameter<*>, *, CalculationDefinition>
             else                          -> throw CalculationException("Not implemented array parameter type ${param.elemClazz}")
         } as RValuesTransceiver<Parameter<*>, *, CalculationDefinition>
