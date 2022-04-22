@@ -17,7 +17,7 @@ import pl.psi.aaas.usecase.Parameters
 class RServeEngine<in D : CalculationDefinition, V, out R>(private val connectionProvider: RConnectionProvider) : Engine<D, V, R> {
     companion object {
         internal val log = LoggerFactory.getLogger(RServeEngine::class.java)
-        internal val baseUserScriptPath = "/var/userScripts/"
+        internal var baseUserScriptPath = "/var/userScripts/"
     }
 
     // TODO 05.05.2018 kskitek: introduce a way to register and select proper transceiver
