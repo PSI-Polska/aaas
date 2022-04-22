@@ -44,8 +44,7 @@ object SimpleTestApp {
         )
 
         return CalculationDefinitionDTO("add",
-                parameters,
-                parameters)
+                parameters, mutableMapOf() )
     }
 }
 

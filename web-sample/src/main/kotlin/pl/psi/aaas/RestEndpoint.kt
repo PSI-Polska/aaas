@@ -44,7 +44,6 @@ class RestEndpoint @Inject constructor(private val facade: Facade<CalculationDef
         )
 
         return CalculationDefinitionDTO("add",
-                parameters,
-                parameters)
+                parameters, mutableMapOf())
     }
 }
