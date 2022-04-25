@@ -4,12 +4,14 @@ import org.rosuda.REngine.Rserve.RConnection
 import org.rosuda.REngine.Rserve.RserveException
 import org.slf4j.LoggerFactory
 import pl.psi.aaas.Engine
+import pl.psi.aaas.Parameter
 import pl.psi.aaas.engine.r.RServeEngine.Companion.baseUserScriptPath
 import pl.psi.aaas.engine.r.RServeEngine.Companion.log
 import pl.psi.aaas.engine.r.transceiver.RValuesTransceiverFactory
 import pl.psi.aaas.usecase.CalculationDefinition
 import pl.psi.aaas.usecase.CalculationException
 import pl.psi.aaas.usecase.Parameters
+import pl.psi.aaas.usecase.Symbol
 
 /**
  * TODO
@@ -28,8 +30,8 @@ class RServeEngine<in D : CalculationDefinition, V, out R>(private val connectio
                 log.debug("Evaluating $calcDef")
 
                 calcDef.sourceScript(conn)
+                conn.voidEval("env <- environment()")
 
-                // TODO we can remove the above line - use only inParameters?
                 calcDef.inParameters.forEach {
                     val t = RValuesTransceiverFactory.get(it.value, conn)
                     t.send(it.key, it.value, calcDef)
@@ -38,13 +40,17 @@ class RServeEngine<in D : CalculationDefinition, V, out R>(private val connectio
                 debugR(calcDef.inParameters, conn)
 
                 log.debug("Calling script")
-                val result = conn.eval("dfOut <- run(dfIn, inParameters)")
+                conn.eval("run(env)")
 
                 val retMap = calcDef.outParameters.map { it.key to RValuesTransceiverFactory.get(it.value, conn) }
-                        .map { it.first to it.second.receive(it.first, null, calcDef) }.toMap()
-                log.debug(retMap.entries.joinToString("\n"))
+                        .map { it.first to it.second.receive(it.first, null, calcDef) }.toMap() as Parameters
+                conn.close()
 
-                null
+                log.debug(retMap.entries.joinToString("\n"))
+                val mutableRetMap = mutableMapOf<Symbol, Parameter<*>>()
+                mutableRetMap.putAll(retMap)
+                calcDef.outParameters = mutableRetMap
+                mutableRetMap as R
             } catch (ex: RserveException) {
                 ex.printStackTrace()
                 throw CalculationException(ex.message ?: "There was an error during calculation.")
