@@ -5,7 +5,6 @@ import org.rosuda.REngine.Rserve.RserveException
 import org.slf4j.LoggerFactory
 import pl.psi.aaas.Engine
 import pl.psi.aaas.Parameter
-import pl.psi.aaas.engine.r.RServeEngine.Companion.baseUserScriptPath
 import pl.psi.aaas.engine.r.RServeEngine.Companion.log
 import pl.psi.aaas.engine.r.transceiver.RValuesTransceiverFactory
 import pl.psi.aaas.usecase.CalculationDefinition
@@ -19,7 +18,13 @@ import pl.psi.aaas.usecase.Symbol
 class RServeEngine<in D : CalculationDefinition, V, out R>(private val connectionProvider: RConnectionProvider) : Engine<D, V, R> {
     companion object {
         internal val log = LoggerFactory.getLogger(RServeEngine::class.java)
-        internal var baseUserScriptPath = "/var/userScripts/"
+        internal const val baseUserScriptPath = "/var/userScripts/"
+    }
+
+    private var scriptPath: String = baseUserScriptPath
+
+    constructor(connectionProvider: RConnectionProvider, scriptPath: String) : this(connectionProvider) {
+        this.scriptPath = scriptPath
     }
 
     // TODO 05.05.2018 kskitek: introduce a way to register and select proper transceiver
@@ -29,7 +34,7 @@ class RServeEngine<in D : CalculationDefinition, V, out R>(private val connectio
                 val conn = connectionProvider.getConnection()
                 log.debug("Evaluating $calcDef")
 
-                calcDef.sourceScript(conn)
+                calcDef.sourceScript(conn, scriptPath)
                 conn.voidEval("env <- environment()")
 
                 calcDef.inParameters.forEach {
@@ -64,10 +69,9 @@ class RServeEngine<in D : CalculationDefinition, V, out R>(private val connectio
                     }
 }
 
-private fun CalculationDefinition.sourceScript(conn: RConnection) {
-    val path = """$baseUserScriptPath$calculationScript.R"""
+private fun CalculationDefinition.sourceScript(conn: RConnection, scriptPath: String) {
+    val path = """$scriptPath$calculationScript.R"""
     log.debug("""Sourcing: $path""")
     conn.voidEval("""writeLines("##\nStarted execution ofPrimitive: $path\n##")""")
     conn.voidEval("""source("$path")""")
 }
-
