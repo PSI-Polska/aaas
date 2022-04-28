@@ -4,7 +4,7 @@ import pl.psi.aaas.Parameter
 
 typealias Symbol = String
 typealias Parameters = Map<Symbol, Parameter<*>>
-typealias OutParameters = Map<Symbol, Class<Any>> // TODO
+typealias OutParameters = MutableMap<Symbol, Parameter<*>>
 
 /**
  * The most basic calculation definition.
@@ -12,13 +12,13 @@ typealias OutParameters = Map<Symbol, Class<Any>> // TODO
 interface CalculationDefinition {
     val calculationScript: String
     val inParameters: Parameters
-    val outParameters: Parameters
+    var outParameters: OutParameters
 // TODO add engineDefinition? engineQuery?
 }
 
 data class CalculationDefinitionDTO(override val calculationScript: String,
                                     override val inParameters: Parameters = emptyMap(),
-                                    override val outParameters: Parameters = emptyMap())
+                                    override var outParameters: OutParameters = mutableMapOf())
     : CalculationDefinition
 
 /**
