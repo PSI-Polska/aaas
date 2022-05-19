@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>pl.psi.aaas</groupId>
@@ -12,7 +13,8 @@
         <module>api</module>
         <module>sample</module>
         <module>engine-r</module>
-        <module>engine-python</module>
+        <!--        Engine-python points onto outdated version of api -->
+        <!--        <module>engine-python</module>  -->
         <module>connection-checker</module>
         <module>web-sample</module>
     </modules>
@@ -30,6 +32,17 @@
         <!-- dependencies properties -->
         <version.slf4j>1.7.25</version.slf4j>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>ppl-release</id>
+            <url>https://ppl-poz-nexus.psi.de/repository/ppl-release/</url>
+        </repository>
+        <snapshotRepository>
+            <id>ppl-snapshots</id>
+            <url>https://ppl-poz-nexus.psi.de/repository/ppl-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 
     <dependencyManagement>
         <dependencies>
