@@ -33,17 +33,6 @@
         <version.slf4j>1.7.25</version.slf4j>
     </properties>
 
-    <distributionManagement>
-        <repository>
-            <id>ppl-release</id>
-            <url>https://ppl-poz-nexus.psi.de/repository/ppl-release/</url>
-        </repository>
-        <snapshotRepository>
-            <id>ppl-snapshots</id>
-            <url>https://ppl-poz-nexus.psi.de/repository/ppl-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
-
     <dependencyManagement>
         <dependencies>
             <!-- project deps -->
