@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>pl.psi.aaas</groupId>
     <artifactId>aaas</artifactId>
-    <version>0.7-SNAPSHOT</version>
+    <version>0.6.1</version>
     <packaging>pom</packaging>
     <name>AaaS</name>
 
@@ -12,7 +13,8 @@
         <module>api</module>
         <module>sample</module>
         <module>engine-r</module>
-        <module>engine-python</module>
+        <!--        Engine-python points onto outdated version of api -->
+        <!--        <module>engine-python</module>  -->
         <module>connection-checker</module>
         <module>web-sample</module>
     </modules>
