@@ -23,23 +23,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.kotlintest</groupId>
-            <artifactId>kotlintest</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.nhaarman</groupId>
-            <artifactId>mockito-kotlin</artifactId>
         </dependency>
 
         <!--required for REngine implementation-->
@@ -51,32 +36,4 @@
 
     </dependencies>
 
-    <build>
-        <sourceDirectory>src/main/kotlin</sourceDirectory>
-
-        <plugins>
-            <plugin>
-                <groupId>org.jetbrains.kotlin</groupId>
-                <artifactId>kotlin-maven-plugin</artifactId>
-                <inherited>true</inherited>
-            </plugin>
-
-            <plugin>
-                <groupId>io.fabric8</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.23.0</version>
-                <configuration>
-                    <machine>
-                        <name>default</name>
-                    </machine>
-                    <images>
-                        <image>
-                            <name>repository.gitlab.com/edmpsi/aaas/engine-r</name>
-                            <dockerFile>Dockerfile</dockerFile>
-                        </image>
-                    </images>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>
