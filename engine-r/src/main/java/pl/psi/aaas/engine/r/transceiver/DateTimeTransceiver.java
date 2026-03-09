@@ -2,6 +2,8 @@ package pl.psi.aaas.engine.r.transceiver;
 
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.REXPDouble;
+import org.rosuda.REngine.REXPMismatchException;
+import org.rosuda.REngine.REngineException;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
 import pl.psi.aaas.Parameter;
@@ -14,7 +16,9 @@ import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 /**
- * TODO: Describe this class (The first line - until the first dot - will interpret as the brief description).
+ * The DateTimeTransceiver class is responsible for transmitting and receiving ZonedDateTime values between a
+ * Java environment and an R session, utilizing the RConnection interface for communication. This class
+ * implements the RValuesTransceiver interface, specializing in handling Parameter<ZonedDateTime> objects.
  */
 class DateTimeTransceiver
     implements RValuesTransceiver< Parameter< ZonedDateTime >, ZonedDateTime, CalculationDefinitionIf >
@@ -66,5 +70,14 @@ class DateTimeTransceiver
         {
             throw new CalculationException( "Error receiving ZonedDateTime from R", e );
         }
+        catch( REXPMismatchException e )
+        {
+            throw new CalculationException( "Error converting to Double from RServe result", e );
+        }
+        catch( REngineException e )
+        {
+            throw new CalculationException( "Error obtaining R session.", e );
+        }
+
     }
 }

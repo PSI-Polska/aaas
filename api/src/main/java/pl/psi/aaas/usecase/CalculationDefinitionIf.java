@@ -1,5 +1,6 @@
 package pl.psi.aaas.usecase;
 
+import pl.psi.aaas.Parameter;
 import java.util.Map;
 
 /**
@@ -16,4 +17,6 @@ public interface CalculationDefinitionIf
     java.time.ZonedDateTime getEnd();
 
     String getCalculationScript();
+    java.util.Map<String, Parameter<?>> getInParameters();
+    java.util.Map<String, Parameter<?>> getOutParameters();
 }

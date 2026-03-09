@@ -2,6 +2,8 @@ package pl.psi.aaas.engine.r.transceiver;
 
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.REXPDouble;
+import org.rosuda.REngine.REXPMismatchException;
+import org.rosuda.REngine.REngineException;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
 import pl.psi.aaas.Parameter;
@@ -15,7 +17,12 @@ import java.time.ZonedDateTime;
 import java.util.Arrays;
 
 /**
- * TODO: Describe this class (The first line - until the first dot - will interpret as the brief description).
+ * The ArrayDateTimeTransceiver class is responsible for transmitting and receiving arrays of ZonedDateTime
+ * values to and from an R session. It converts Java time representations into a format compatible with R and
+ * vice versa, while maintaining the integrity of timezone and null values.
+ * This class implements the RValuesTransceiver interface for handling the transmission of
+ * Parameter<ZonedDateTime[]> values and their interaction with calculations defined by
+ * CalculationDefinitionIf.
  */
 class ArrayDateTimeTransceiver
     implements RValuesTransceiver< Parameter< ZonedDateTime[] >, ZonedDateTime[], CalculationDefinitionIf >
@@ -91,6 +98,14 @@ class ArrayDateTimeTransceiver
         catch( RserveException e )
         {
             throw new CalculationException( "Error receiving ZonedDateTime array from R", e );
+        }
+        catch( REXPMismatchException e )
+        {
+            throw new CalculationException( "Error converting to Double from RServe result", e );
+        }
+        catch( REngineException e )
+        {
+            throw new CalculationException( "Error obtaining R session.", e );
         }
     }
 }

@@ -44,9 +44,12 @@ public class RServeEngine<D extends CalculationDefinition, V, R> implements Engi
                 sourceScript(conn, calcDef, baseUserScriptPath);
                 conn.voidEval("env <- environment()");
 
-                for (Map.Entry<String, Parameter<?>> entry : calcDef.timeSeriesIdsIn().entrySet()) {
-                    RValuesTransceiver<Parameter<?>, ?, D> t = (RValuesTransceiver<Parameter<?>, ?, D>) RValuesTransceiver.get(entry.getValue(), conn);
-                    t.send(entry.getKey(), entry.getValue(), calcDef);
+                for (Map.Entry<String, Long> entry : calcDef.getTimeSeriesIdsIn().entrySet()) {
+                    Parameter<?> p = calcDef.getInParameters().get(entry.getKey());
+                    if (p != null) {
+                        RValuesTransceiver<Parameter<?>, ?, CalculationDefinitionIf> t = RTransceiverFactory.get(p, conn);
+                        t.send(entry.getKey(), p, calcDef);
+                    }
                 }
 
                 debugR(calcDef.getInParameters(), conn);
@@ -55,10 +58,13 @@ public class RServeEngine<D extends CalculationDefinition, V, R> implements Engi
                 conn.eval("run(env)");
 
                 Map<String, Parameter<?>> retMap = new HashMap<>();
-                for (Map.Entry<String, Parameter<?>> entry : calcDef.getOutParameters().entrySet()) {
-                    RValuesTransceiver<Parameter<?>, ?, D> t = (RValuesTransceiver<Parameter<?>, ?, D>) RValuesTransceiverFactory.get(entry.getValue(), conn);
-                    Object receivedValue = t.receive(entry.getKey(), null, calcDef);
-                    retMap.put(entry.getKey(), (Parameter<?>) receivedValue);
+                for (Map.Entry<String, Long> entry : calcDef.getTimeSeriesIdsOut().entrySet()) {
+                    Parameter<?> p = calcDef.getOutParameters().get(entry.getKey());
+                    if (p != null) {
+                        RValuesTransceiver<Parameter<?>, ?, CalculationDefinitionIf> t = RTransceiverFactory.get(p, conn);
+                        Object receivedValue = t.receive(entry.getKey(), null, calcDef);
+                        retMap.put(entry.getKey(), (Parameter<?>) receivedValue);
+                    }
                 }
 
                 log.debug(retMap.entrySet().stream()

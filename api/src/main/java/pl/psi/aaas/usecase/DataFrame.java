@@ -1,58 +1,74 @@
 package pl.psi.aaas.usecase;
 
+import pl.psi.aaas.Column;
+import pl.psi.aaas.Parameter;
+
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
- * Very crude implementation of Primitive DataFrame.
- * When moving to Java8 think about moving to external implementation like ch.netzwerg.paleo.DataFrame.
+ * Very crude implementation of Primitive DataFrame. When moving to Java8 think about moving to external
+ * implementation like ch.netzwerg.paleo.DataFrame.
  */
-public class DataFrame<T> {
-    private final Map<String, Integer> columns;
-    private final T[][] matrix;
+public class DataFrame extends Parameter< Column[] >
+{
 
-    public DataFrame(Map<String, Integer> columns, T[][] matrix) {
-        this.columns = columns;
-        this.matrix = matrix;
+    public DataFrame( Column[] columns, Class< ? >[] columnClasses )
+    {
+        super( columns, (Class< Column[] >)columns.getClass() );
     }
 
-    public DataFrame(String[] columns, T[][] matrix) {
-        this(arrayToMap(columns), matrix);
-    }
-
-    public T[] get(int row) {
-        if (row < matrix.length) {
-            return matrix[row];
-        } else {
+    public Object[] get( int row )
+    {
+        if( row < size() )
+        {
+            Object[] result = new Object[ value.length ];
+            for( int i = 0; i < value.length; i++ )
+            {
+                result[ i ] = ((Object[])value[ i ].getVector()
+                    .getValue())[ row ];
+            }
+            return result;
+        }
+        else
+        {
             return null;
         }
     }
 
-    public T[] get(String colName) {
-        if (columns.containsKey(colName)) {
-            return get(columns.get(colName));
-        } else {
-            return null;
+    public Object[] get( String colName )
+    {
+        return Arrays.stream( value )
+            .filter( col -> col.getSymbol()
+                .equals( colName ) )
+            .findFirst()
+            .map( col -> (Object[])col.getVector()
+                .getValue() )
+            .orElse( null );
+    }
+
+    public Column[] getAll()
+    {
+        return value;
+    }
+
+    public List< String > getColumns()
+    {
+        return Arrays.stream( value )
+            .map( Column::getSymbol )
+            .collect( Collectors.toList() );
+    }
+
+    public int size()
+    {
+        if( value.length > 0 )
+        {
+            return (value[ 0 ].getVector()
+                .getValue()).length;
         }
-    }
-
-    public T[][] getAll() {
-        return matrix;
-    }
-
-    public List<String> getColumns() {
-        return columns.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
-    }
-
-    public int size() {
-        if (matrix.length > 0) {
-            return matrix[0].length;
-        } else {
+        else
+        {
             return 0;
         }
     }
@@ -60,24 +76,24 @@ public class DataFrame<T> {
     /**
      * Returns a view of Primitive the DataFrame with predicate applied to columns.
      */
-    public DataFrame<T> getFiltered(Predicate<String> predicate) {
-        Map<String, Integer> filtered = columns.entrySet().stream()
-                .filter(entry -> predicate.test(entry.getKey()))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        return new DataFrame<>(filtered, matrix);
+    public DataFrame getFiltered( Predicate< String > predicate )
+    {
+        Column[] filteredColumns = Arrays.stream( value )
+            .filter( col -> predicate.test( col.getSymbol() ) )
+            .toArray( Column[]::new );
+
+        Class< ? >[] columnClasses = Arrays.stream( filteredColumns )
+            .map( col -> col.getVector()
+                .getElemClazz() )
+            .toArray( Class< ? >[]::new );
+
+        return new DataFrame( filteredColumns, columnClasses );
     }
 
-    public Map<String, T[]> toMap() {
-        return columns.keySet().stream()
-                .collect(Collectors.toMap(
-                        key -> key,
-                        key -> get(key)
-                ));
-    }
-
-    private static Map<String, Integer> arrayToMap(String[] arr) {
-        return IntStream.range(0, arr.length)
-                .boxed()
-                .collect(Collectors.toMap(i -> arr[i], i -> i));
+    public Map< String, Object[] > toMap()
+    {
+        return Arrays.stream( value )
+            .collect( Collectors.toMap( Column::getSymbol, col -> (Object[])col.getVector()
+                .getValue() ) );
     }
 }
