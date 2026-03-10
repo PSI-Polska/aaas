@@ -27,7 +27,7 @@
         <kotlin.compiler.incremental>true</kotlin.compiler.incremental>
         <version.kotlin>1.2.50</version.kotlin>
         <version.kotlintest>2.0.7</version.kotlintest>
-        <version.dokka>0.9.15</version.dokka>
+        <version.dokka>0.9.16</version.dokka>
 
         <!-- dependencies properties -->
         <version.slf4j>1.7.25</version.slf4j>
