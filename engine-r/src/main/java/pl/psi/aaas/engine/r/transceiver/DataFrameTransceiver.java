@@ -1,21 +1,22 @@
 package pl.psi.aaas.engine.r.transceiver;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.RList;
 import org.rosuda.REngine.Rserve.RConnection;
 import org.rosuda.REngine.Rserve.RserveException;
+
 import pl.psi.aaas.Column;
-import pl.psi.aaas.usecase.DataFrame;
+import pl.psi.aaas.DataFrame;
 import pl.psi.aaas.Parameter;
 import pl.psi.aaas.Vector;
 import pl.psi.aaas.engine.r.RValuesTransceiver;
 import pl.psi.aaas.usecase.CalculationDefinitionIf;
 import pl.psi.aaas.usecase.CalculationException;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 class DataFrameTransceiver implements RValuesTransceiver< DataFrame, DataFrame, CalculationDefinitionIf >
 {

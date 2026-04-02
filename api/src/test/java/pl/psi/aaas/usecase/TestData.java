@@ -1,11 +1,6 @@
 package pl.psi.aaas.usecase;
 
-import java.time.ZonedDateTime;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.AbstractMap;
+import java.util.*;
 
 public class TestData {
     public static final CalculationDefinitionIf ValidDefinition;
@@ -21,10 +16,6 @@ public class TestData {
         timeSeriesIdsOut.put("Z", 102L);
 
         ValidDefinition = new CalculationDefinition(
-                timeSeriesIdsIn,
-                timeSeriesIdsOut,
-                ZonedDateTime.now(),
-                ZonedDateTime.now().plusDays(1),
                 "validScriptPath"
         );
     }

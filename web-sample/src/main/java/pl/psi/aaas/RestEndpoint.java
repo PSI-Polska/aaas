@@ -1,14 +1,15 @@
 package pl.psi.aaas;
 
-import pl.psi.aaas.usecase.CalculationDefinitionIf;
-import pl.psi.aaas.usecase.CalculationDefinition;
+import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import java.time.ZonedDateTime;
-import java.util.HashMap;
-import java.util.Map;
+
+import pl.psi.aaas.usecase.CalculationDefinition;
+import pl.psi.aaas.usecase.CalculationDefinitionIf;
 
 @Path("/call")
 public class RestEndpoint {
@@ -57,6 +58,6 @@ public class RestEndpoint {
         parameters.put("boolNullV", boolNullVec);
         parameters.put("df", Parameter.ofDataFrame(dfColumns));
 
-        return new CalculationDefinition(new HashMap<>(), new HashMap<>(), ZonedDateTime.now(), ZonedDateTime.now().plusDays(1), "add");
+        return new CalculationDefinition( "add" );
     }
 }

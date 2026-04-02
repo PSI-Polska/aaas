@@ -1,7 +1,5 @@
 package pl.psi.aaas;
 
-import pl.psi.aaas.usecase.DataFrame;
-
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.List;

@@ -1,14 +1,14 @@
 package pl.psi.aaas.sample;
 
-import pl.psi.aaas.*;
-import pl.psi.aaas.engine.r.RConnectionProvider;
-import pl.psi.aaas.engine.r.RServeEngine;
-import pl.psi.aaas.usecase.CalculationDefinitionIf;
-import pl.psi.aaas.usecase.CalculationDefinition;
-
 import java.time.ZonedDateTime;
 import java.util.HashMap;
 import java.util.Map;
+
+import pl.psi.aaas.*;
+import pl.psi.aaas.engine.r.RConnectionProvider;
+import pl.psi.aaas.engine.r.RServeEngine;
+import pl.psi.aaas.usecase.CalculationDefinition;
+import pl.psi.aaas.usecase.CalculationDefinitionIf;
 
 public class SimpleTestApp
 {
@@ -51,9 +51,7 @@ public class SimpleTestApp
         parameters.put( "boolNullV", boolNullVec );
         parameters.put( "df", Parameter.ofDataFrame( dfColumns ) );
 
-        return new CalculationDefinition( new HashMap<>(), new HashMap<>(), ZonedDateTime.now(),
-            ZonedDateTime.now()
-                .plusDays( 1 ), "add" );
+        return new CalculationDefinition( "add" );
         // Note: CalculationDefinitionDTO in api module seems to have changed its constructor in my previous step.
         // I need to check the actual CalculationDefinitionDTO I wrote.
     }
