@@ -10,11 +10,11 @@ import java.util.Objects;
 public class DataFrame extends Parameter<Column[]> {
     private final Class<?>[] columnClasses;
 
-    DataFrame(Column[] value, Class<?>[] columnClasses) {
+    public DataFrame(Column[] value, Class<?>[] columnClasses) {
         this(value, (Class<Column[]>) value.getClass(), columnClasses);
     }
 
-    DataFrame(Column[] value, Class<Column[]> clazz, Class<?>[] columnClasses) {
+    public DataFrame(Column[] value, Class<Column[]> clazz, Class<?>[] columnClasses) {
         super(value, clazz);
         this.columnClasses = columnClasses;
     }

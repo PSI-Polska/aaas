@@ -14,7 +14,7 @@ import java.util.HashMap;
  * Implements the {@link CalculationDefinitionIf} interface, which ensures compatibility with core calculation
  * behaviors.
  */
-public final class CalculationDefinition implements CalculationDefinitionIf
+public class CalculationDefinition implements CalculationDefinitionIf
 {
     private final Map< String, Long > timeSeriesIdsIn;
     private final Map< String, Long > timeSeriesIdsOut;

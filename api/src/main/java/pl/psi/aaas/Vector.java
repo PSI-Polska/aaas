@@ -10,7 +10,7 @@ import java.util.Objects;
 public class Vector<T> extends Parameter<T[]> {
     private final Class<?> elemClazz;
 
-    Vector(T[] value, Class<T[]> clazz, Class<?> elemClazz) {
+    public Vector(T[] value, Class<T[]> clazz, Class<?> elemClazz) {
         super(value, clazz);
         this.elemClazz = elemClazz;
     }
